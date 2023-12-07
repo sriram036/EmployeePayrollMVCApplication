@@ -4,14 +4,21 @@
     ViewData["Title"] = "GetEmployees";
 }
 
+<link rel="stylesheet" href="~/css/Getall.css" />
+
 <h1>GetEmployees</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="AddEmployee"><img src="~/Assests/add-24px.svg" style="background-color:limegreen"/></a>
+    <br/>
+    <a asp-action="Login">Login</a>
 </p>
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeId)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.EmployeeName)
             </th>
@@ -40,10 +47,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.EmployeeId)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.EmployeeName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.EmployeeProfile)
+                <img src=@Url.Content(item.EmployeeProfile) />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.EmployeeGender)
@@ -61,11 +71,19 @@
                 @Html.DisplayFor(modelItem => item.EmployeeNotes)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    <a asp-action="UpdateEmployee"><img src="~/Assests/create-black-18dp.svg" /></a>
+                    @Html.ActionLink("Edit", "UpdateEmployee", new { id = item.EmployeeId }) |
+                    @Html.ActionLink("Details", "GetEmployeeData", new { id=item.EmployeeId }) |
+                    <a asp-action="DeleteEmployee"><img src="~/Assests/delete-black-18dp.svg" /></a>
+                    @Html.ActionLink("Delete", "DeleteEmployee", new { id=item.EmployeeId })
             </td>
         </tr>
 }
+        @foreach(ModelLayer.Models.Employee Emp in (List<ModelLayer.Models.Employee>)TempData["EmployeeIds"])
+        {
+            <tr>
+                <td>@Emp.EmployeeName</td>
+            </tr>
+        }
     </tbody>
 </table>

@@ -40,5 +40,10 @@ namespace BusinessLayer.Sessions
         {
             return employeeRepo.DeleteEmployee(id);
         }
+
+        public long Login(LoginModel loginModel)
+        {
+            return employeeRepo.Login(loginModel);
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace RepositoryLayer.Interfaces
         Employee GetEmployeeData(long id);
         bool UpdateEmployee(Employee employee);
         bool DeleteEmployee(long id);
+        long Login(LoginModel loginModel);
     }
 }

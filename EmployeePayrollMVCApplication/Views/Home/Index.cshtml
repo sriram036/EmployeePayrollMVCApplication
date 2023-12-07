@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<ModelLayer.Models.Employee>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -6,3 +8,7 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+@foreach (ModelLayer.Models.Employee Emp in (List<ModelLayer.Models.Employee>)TempData["EmployeeIds"])
+{
+    <label>@Emp.EmployeeName</label>
+}

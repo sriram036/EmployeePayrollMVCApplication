@@ -53,9 +53,10 @@ namespace RepositoryLayer.Sessions
                 {
                     Employee employee = new Employee();
 
+                    employee.EmployeeId = Convert.ToInt64(Reader["EmployeeId"]);
                     employee.EmployeeName = Reader["EmployeeName"].ToString();
                     employee.EmployeeProfile = Reader["EmployeeProfile"].ToString();
-                    employee.EmployeeGender = Convert.ToBoolean(Reader["EmployeeGender"]);
+                    employee.EmployeeGender = Reader["EmployeeGender"].ToString();
                     employee.EmployeeDepartment = Reader["EmployeeDepartment"].ToString();
                     employee.EmployeeSalary = Convert.ToInt64(Reader["EmployeeSalary"]);
                     employee.EmployeeStartDate = Convert.ToDateTime(Reader["EmployeeStartDate"]);
@@ -84,7 +85,7 @@ namespace RepositoryLayer.Sessions
                     employee.EmployeeId = Convert.ToInt64(Reader["EmployeeId"]);
                     employee.EmployeeName = Reader["EmployeeName"].ToString();
                     employee.EmployeeProfile = Reader["EmployeeProfile"].ToString();
-                    employee.EmployeeGender = Convert.ToBoolean(Reader["EmployeeGender"]);
+                    employee.EmployeeGender = Reader["EmployeeGender"].ToString();
                     employee.EmployeeDepartment = Reader["EmployeeDepartment"].ToString();
                     employee.EmployeeSalary = Convert.ToInt64(Reader["EmployeeSalary"]);
                     employee.EmployeeStartDate = Convert.ToDateTime(Reader["EmployeeStartDate"]);
@@ -132,6 +133,30 @@ namespace RepositoryLayer.Sessions
                 con.Close();
             }
             return true;
+        }
+
+        public long Login(LoginModel loginModel)
+        {
+            long Id = 0;
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("spLoginEmployee", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@id", loginModel.EmployeeId);
+                cmd.Parameters.AddWithValue("@Name", loginModel.EmployeeName);
+
+                con.Open();
+                SqlDataReader Reader = cmd.ExecuteReader();
+                
+                while (Reader.Read())
+                {
+                    Id = Convert.ToInt64(Reader["EmployeeId"]);
+                }
+                con.Close();
+            }
+            
+            return Id;
         }
     }
 }

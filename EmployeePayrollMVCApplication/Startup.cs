@@ -30,6 +30,10 @@ namespace EmployeePayrollMVCApplication
             services.AddControllersWithViews();
             services.AddTransient<IEmployeRepo, EmployeRepo>();
             services.AddTransient<IEmployeeBusiness, EmployeeBusiness>();
+            services.AddSession(option =>
+            {
+                option.IdleTimeout = TimeSpan.FromSeconds(30);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +53,8 @@ namespace EmployeePayrollMVCApplication
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseSession();
+
             app.UseRouting();
 
             app.UseAuthorization();
@@ -57,7 +63,7 @@ namespace EmployeePayrollMVCApplication
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Employee}/{action=GetEmployees}/{id?}");
             });
         }
     }

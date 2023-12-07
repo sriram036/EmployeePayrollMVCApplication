@@ -1,7 +1,10 @@
 ﻿using BusinessLayer.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ModelLayer.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EmployeePayrollMVCApplication.Controllers
 {
@@ -22,62 +25,157 @@ namespace EmployeePayrollMVCApplication.Controllers
         [HttpGet]
         public IActionResult AddEmployee()
         {
-            return View();
+            try
+            {
+                return View();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [HttpPost]
         public IActionResult AddEmployee([Bind] Employee employee)
         {
-            if (ModelState.IsValid)
+            try
             {
                 employeeBusiness.AddEmployee(employee);
                 return RedirectToAction("GetEmployees");
+
             }
-            return View(employee);
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [HttpGet]
         public IActionResult GetEmployees()
         {
-            return View(employeeBusiness.GetAllEmployees());
+            try
+            {
+                IEnumerable<Employee> Employees = employeeBusiness.GetAllEmployees();
+                
+                TempData["EmployeeIds"] = Employees.ToList();
+                //return View(Employees);
+                return RedirectToAction("Index", "Home", Employees);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [HttpGet]
-        public IActionResult GetEmployeeData(long id)
+        public IActionResult GetEmployeeData()
         {
-            return View(employeeBusiness.GetEmployeeData(id));
+            try
+            {
+                long id = long.Parse(HttpContext.Session.GetString("EmployeeId"));
+                
+                return View(employeeBusiness.GetEmployeeData(id));
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [HttpGet]
         public IActionResult UpdateEmployee(long id)
         {
-            Employee employee = employeeBusiness.GetEmployeeData(id);
-            return View(employee);
+            try
+            {
+                Employee employee = employeeBusiness.GetEmployeeData(id);
+                return View(employee);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [HttpPost]
         public IActionResult UpdateEmployee([Bind] Employee employee)
         {
-            if (ModelState.IsValid)
+            try
             {
-                employeeBusiness.UpdateEmployee(employee);
-                return RedirectToAction("GetEmployees");
+                if (ModelState.IsValid)
+                {
+                    employeeBusiness.UpdateEmployee(employee);
+                    return RedirectToAction("GetEmployees");
+                }
+                return View(employee);
             }
-            return View(employee);
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [HttpGet]
         public IActionResult DeleteEmployee(long id)
         {
-            Employee employee = employeeBusiness.GetEmployeeData(id);
-            return View(employee);
+            try
+            {
+                Employee employee = employeeBusiness.GetEmployeeData(id);
+                return View(employee);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [HttpPost, ActionName("DeleteEmployee")]
         public IActionResult Delete(long id)
         {
-            employeeBusiness.DeleteEmployee(id);
-            return RedirectToAction("GetEmployees");
+            try
+            {
+                employeeBusiness.DeleteEmployee(id);
+                return RedirectToAction("GetEmployees");
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            try
+            {
+                return View();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Login([Bind] LoginModel Login)
+        {
+            try
+            {
+                long Id = employeeBusiness.Login(Login);
+                //string url = "GetEmployeeData/" + employee.EmployeeId;
+                HttpContext.Session.SetString("EmployeeId", Id.ToString());
+                if(Id > 0)
+                {
+                    return RedirectToAction("GetEmployeeData");
+                }
+                else
+                {
+                    return RedirectToAction("Login");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }
