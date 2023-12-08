@@ -130,3 +130,4 @@ C:\Users\sriram\source\repos\EmployeePayrollMVCApplication\EmployeePayrollMVCApp
 C:\Users\sriram\source\repos\EmployeePayrollMVCApplication\EmployeePayrollMVCApplication\obj\Debug\netcoreapp3.1\Razor\Views\Employee\UpdateEmployee.cshtml.g.cs
 C:\Users\sriram\source\repos\EmployeePayrollMVCApplication\EmployeePayrollMVCApplication\obj\Debug\netcoreapp3.1\Razor\Views\Employee\DeleteEmployee.cshtml.g.cs
 C:\Users\sriram\source\repos\EmployeePayrollMVCApplication\EmployeePayrollMVCApplication\obj\Debug\netcoreapp3.1\Razor\Views\Employee\Login.cshtml.g.cs
+C:\Users\sriram\source\repos\EmployeePayrollMVCApplication\EmployeePayrollMVCApplication\obj\Debug\netcoreapp3.1\Razor\Views\Employee\Title.cshtml.g.cs

@@ -58,8 +58,8 @@ namespace EmployeePayrollMVCApplication.Controllers
                 IEnumerable<Employee> Employees = employeeBusiness.GetAllEmployees();
                 
                 TempData["EmployeeIds"] = Employees.ToList();
-                //return View(Employees);
-                return RedirectToAction("Index", "Home", Employees);
+                return View(Employees);
+                //return RedirectToAction("Index", "Home");
             }
             catch(Exception ex)
             {
