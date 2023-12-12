@@ -5,6 +5,7 @@ using ModelLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace EmployeePayrollMVCApplication.Controllers
 {
@@ -57,7 +58,7 @@ namespace EmployeePayrollMVCApplication.Controllers
             {
                 IEnumerable<Employee> Employees = employeeBusiness.GetAllEmployees();
                 
-                TempData["EmployeeIds"] = Employees.ToList();
+                //TempData["EmployeeIds"] = Employees.ToList();
                 return View(Employees);
                 //return RedirectToAction("Index", "Home");
             }
@@ -68,7 +69,21 @@ namespace EmployeePayrollMVCApplication.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetEmployeeData()
+        public IActionResult GetEmployeeNames(string key)
+        {
+            try
+            {
+                List<Employee> Employees = employeeBusiness.GetEmployeeName(key);
+                return View(Employees);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpGet]
+        public IActionResult GetEmployeeData(long Id)
         {
             try
             {
@@ -143,6 +158,28 @@ namespace EmployeePayrollMVCApplication.Controllers
         }
 
         [HttpGet]
+        public IActionResult GetEmployeeName(string name)
+        {
+            try
+            {
+                List<Employee> Employees = employeeBusiness.GetEmployeeName(name);
+                Employee employee = Employees[0];
+                if(Employees.Count == 1)
+                {
+                    return View(employee);
+                }
+                else
+                {
+                    return RedirectToAction("GetEmployeeNames", "Employee", new {key = name});
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpGet]
         public IActionResult Login()
         {
             try
@@ -160,10 +197,10 @@ namespace EmployeePayrollMVCApplication.Controllers
         {
             try
             {
-                long Id = employeeBusiness.Login(Login);
+                long id = employeeBusiness.Login(Login);
                 //string url = "GetEmployeeData/" + employee.EmployeeId;
-                HttpContext.Session.SetString("EmployeeId", Id.ToString());
-                if(Id > 0)
+                HttpContext.Session.SetString("EmployeeId", id.ToString());
+                if (id > 0)
                 {
                     return RedirectToAction("GetEmployeeData");
                 }

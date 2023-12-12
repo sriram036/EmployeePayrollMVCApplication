@@ -11,5 +11,6 @@ namespace BusinessLayer.Interfaces
         bool UpdateEmployee(Employee employee);
         bool DeleteEmployee(long id);
         long Login(LoginModel loginModel);
+        List<Employee> GetEmployeeName(string name);
     }
 }

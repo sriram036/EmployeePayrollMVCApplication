@@ -1,17 +1,13 @@
 ﻿@model ModelLayer.Models.Employee
 
 @{
-    ViewData["Title"] = "DeleteEmployee";
-    Layout = null;
+    ViewData["Title"] = Model.EmployeeName;
 }
 
-<h1>DeleteEmployee</h1>
-
-<h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>Employee</h4>
+    <h4 style="text-align:center;font-weight:bold">@Html.DisplayFor(model => model.EmployeeName)</h4>
     <hr />
-    <dl class="row">
+    <dl class="row" style="background-color:yellowgreen;text-align:center">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.EmployeeId)
         </dt>
@@ -28,7 +24,7 @@
             @Html.DisplayNameFor(model => model.EmployeeProfile)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EmployeeProfile)
+            <img src=@Url.Content(Model.EmployeeProfile) />
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.EmployeeGender)
@@ -61,9 +57,13 @@
             @Html.DisplayFor(model => model.EmployeeNotes)
         </dd>
     </dl>
-    
-    <form asp-action="DeleteEmployee">
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="GetEmployees">Back to List</a>
-    </form>
 </div>
+<div>
+    @Html.ActionLink("Edit", "UpdateEmployee", new {  id = Model.EmployeeId  }) |
+    <a asp-action="GetEmployees">Back to List</a>
+</div>
+<footer>
+    <div class="container" style="background-color:black;color:white;text-align:right">
+        &copy; 2023 - EmployeePayrollMVCApplication - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    </div>
+</footer>

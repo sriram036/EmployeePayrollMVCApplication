@@ -135,9 +135,39 @@ namespace RepositoryLayer.Sessions
             return true;
         }
 
+        public List<Employee> GetEmployeeName(string name) 
+        {
+            List<Employee> Employees = new List<Employee>();
+            
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                string sqlQuery = "select * from Employees where EmployeeName= '" + name + "'";
+                SqlCommand cmd = new SqlCommand(sqlQuery, con);
+
+                con.Open();
+                SqlDataReader Reader = cmd.ExecuteReader();
+                while (Reader.Read())
+                {
+                    Employee employee = new Employee();
+
+                    employee.EmployeeId = Convert.ToInt64(Reader["EmployeeId"]);
+                    employee.EmployeeName = Reader["EmployeeName"].ToString();
+                    employee.EmployeeProfile = Reader["EmployeeProfile"].ToString();
+                    employee.EmployeeGender = Reader["EmployeeGender"].ToString();
+                    employee.EmployeeDepartment = Reader["EmployeeDepartment"].ToString();
+                    employee.EmployeeSalary = Convert.ToInt64(Reader["EmployeeSalary"]);
+                    employee.EmployeeStartDate = Convert.ToDateTime(Reader["EmployeeStartDate"]);
+                    employee.EmployeeNotes = Reader["EmployeeNotes"].ToString();
+
+                    Employees.Add(employee);
+                }
+            }
+            return Employees;
+        }
+
         public long Login(LoginModel loginModel)
         {
-            long Id = 0;
+            long id = 0;
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
                 SqlCommand cmd = new SqlCommand("spLoginEmployee", con);
@@ -151,12 +181,13 @@ namespace RepositoryLayer.Sessions
                 
                 while (Reader.Read())
                 {
-                    Id = Convert.ToInt64(Reader["EmployeeId"]);
+                    id = Convert.ToInt64(Reader["EmployeeId"]);
+                    
                 }
                 con.Close();
             }
             
-            return Id;
+            return id;
         }
     }
 }

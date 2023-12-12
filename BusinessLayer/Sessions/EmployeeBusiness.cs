@@ -45,5 +45,10 @@ namespace BusinessLayer.Sessions
         {
             return employeeRepo.Login(loginModel);
         }
+
+        public List<Employee> GetEmployeeName(string name)
+        {
+            return employeeRepo.GetEmployeeName(name);
+        }
     }
 }

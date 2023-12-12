@@ -1,15 +1,13 @@
 ﻿@model IEnumerable<ModelLayer.Models.Employee>
 
 @{
-    ViewData["Title"] = "GetEmployees";
+    ViewData["Title"] = "GetEmployeeNames";
 }
 
-<link rel="stylesheet" href="~/css/Getall.css" />
+<h1>GetEmployeeNames</h1>
 
 <p>
-    <a onclick="ShowInPopup('@Url.Action("AddEmployee","Employee",null,Context.Request.Scheme)')"><img src="~/Assests/add-24px.svg" style="background-color:limegreen"/></a>
-    <br/>
-    <a asp-action="Login">Login</a>
+    <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -69,20 +67,11 @@
                 @Html.DisplayFor(modelItem => item.EmployeeNotes)
             </td>
             <td>
-                    <a onclick="ShowInPopup('@Url.Action("UpdateEmployee","Employee",new { id = item.EmployeeId },Context.Request.Scheme)')">Edit</a>
-                    @Html.ActionLink("Edit", "UpdateEmployee", new { id = item.EmployeeId }) |
-                    <a onclick="ShowInPopup('@Url.Action("GetEmployeeData","Employee",new { id = item.EmployeeId },Context.Request.Scheme)')">Details</a>
-                    @Html.ActionLink("Details", "GetEmployeeData", new { id=item.EmployeeId }) |
-                    <a onclick="ShowInPopup('@Url.Action("DeleteEmployee","Employee",new { id = item.EmployeeId },Context.Request.Scheme)')">Delete</a>
-                    @Html.ActionLink("Delete", "DeleteEmployee", new { id=item.EmployeeId })
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
         </tr>
 }
-        @* @foreach(ModelLayer.Models.Employee Emp in (List<ModelLayer.Models.Employee>)TempData["EmployeeIds"])
-        {
-            <tr>
-                <td>@Emp.EmployeeName</td>
-            </tr>
-        } *@
     </tbody>
 </table>
